@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Confirm Ticket</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+        }
+
+        .navbar {
+            background: #1565c0;
+            color: white;
+            padding: 18px 40px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .container {
+            width: 500px;
+            max-width: 90%;
+            margin: 60px auto;
+        }
+
+        .ticket {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px #ccc;
+            border-top: 6px solid #1565c0;
+        }
+
+        .ticket h1 {
+            text-align: center;
+            color: #1565c0;
+            margin-top: 0;
+        }
+
+        .ticket h2 {
+            text-align: center;
+            color: #222;
+        }
+
+        .details {
+            margin-top: 25px;
+            line-height: 1.8;
+            font-size: 16px;
+        }
+
+        .confirm-button {
+            display: block;
+            width: 100%;
+            margin-top: 25px;
+            padding: 12px;
+            background: #2196f3;
+            color: white;
+            border: 2px solid black;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .confirm-button:hover {
+            background: #1976d2;
+        }
+
+        .cancel-button {
+            display: block;
+            text-align: center;
+            margin-top: 12px;
+            padding: 10px;
+            background: white;
+            color: #1565c0;
+            border: 2px solid black;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="navbar">
+    🎬 CinemaBook
+</div>
+
+<div class="container">
+
+    <div class="ticket">
+
+        <h1>🎟️ Confirm Ticket</h1>
+
+        <h2>{{ movie.name }}</h2>
+
+        <div class="details">
+            <p><strong>Director:</strong> {{ movie.director }}</p>
+
+            <p><strong>Year:</strong> {{ movie.year }}</p>
+
+            <p><strong>Show Time:</strong> {{ movie.show_time }}</p>
+
+            <p><strong>Ticket Price:</strong> ₹{{ movie.ticket_price }}</p>
+
+            <p><strong>Available Seats:</strong>
+                {{ movie.available_seats }}
+            </p>
+        </div>
+
+        {% if movie.available_seats > 0 %}
+
+        <form method="POST" action="{% url 'confirm_booking' movie.id %}">
+            {% csrf_token %}
+
+            <button type="submit" class="confirm-button">
+                🎫 Confirm Booking
+            </button>
+        </form>
+
+        {% else %}
+
+        <p style="text-align:center;">
+            ❌ Sorry, this movie is fully booked.
+        </p>
+
+        {% endif %}
+
+        <a href="{% url 'home' %}" class="cancel-button">
+            ← Cancel
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Booking Confirmed</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+        }
+
+        .navbar {
+            background: #1565c0;
+            color: white;
+            padding: 18px 40px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .success-box {
+            width: 500px;
+            max-width: 90%;
+            margin: 70px auto;
+            background: white;
+            padding: 40px;
+            text-align: center;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px #ccc;
+            border-top: 6px solid #2196f3;
+        }
+
+        .success-icon {
+            font-size: 55px;
+        }
+
+        h1 {
+            color: #1565c0;
+        }
+
+        .movie-name {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 20px;
+        }
+
+        .details {
+            line-height: 1.8;
+        }
+
+        .home-button {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 11px 20px;
+            background: #2196f3;
+            color: white;
+            border: 2px solid black;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .home-button:hover {
+            background: #1976d2;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="navbar">
+    🎬 CinemaBook
+</div>
+
+<div class="success-box">
+
+    <div class="success-icon">🎉</div>
+
+    <h1>Booking Confirmed!</h1>
+
+    <p>Your movie ticket has been successfully booked.</p>
+
+    <div class="movie-name">
+        {{ movie.name }}
+    </div>
+
+    <div class="details">
+        <p><strong>Show Time:</strong> {{ movie.show_time }}</p>
+
+        <p><strong>Ticket Price:</strong> ₹{{ movie.ticket_price }}</p>
+
+        <p><strong>Remaining Seats:</strong>
+            {{ movie.available_seats }}
+        </p>
+    </div>
+
+    <a href="{% url 'home' %}" class="home-button">
+        ← Back to Home
+    </a>
+
+</div>
+
+</body>
+</html>

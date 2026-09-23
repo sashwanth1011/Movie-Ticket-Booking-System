@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Movie Ticket Booking System</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+        }
+
+        .navbar {
+            background: #1565c0;
+            color: white;
+            padding: 18px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .nav-title {
+            font-size: 18px;
+        }
+
+        .welcome {
+            background: white;
+            margin: 30px 40px;
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 6px solid #1565c0;
+        }
+
+        .welcome h1 {
+            margin: 0 0 8px;
+            color: #222;
+        }
+
+        .welcome p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .add-button {
+            display: inline-block;
+            background: #2196f3;
+            color: white;
+            padding: 10px 18px;
+            text-decoration: none;
+            border: 2px solid black;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .add-button:hover {
+            background: #1976d2;
+        }
+
+        .cards {
+            display: flex;
+            gap: 20px;
+            margin: 0 40px 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            flex: 1;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 8px #ccc;
+        }
+
+        .card h3 {
+            margin: 5px;
+            color: #555;
+        }
+
+        .card p {
+            font-size: 28px;
+            font-weight: bold;
+            color: #1565c0;
+            margin: 10px;
+        }
+
+        .movies-section {
+            background: white;
+            margin: 0 40px 40px;
+            padding: 25px;
+            border-radius: 10px;
+        }
+
+        .movies-section h2 {
+            margin-top: 0;
+            color: #222;
+        }
+
+        .movie-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .movie-card {
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            background: #fafafa;
+        }
+
+        .movie-card h3 {
+            color: #1565c0;
+            margin-top: 0;
+            font-size: 22px;
+        }
+
+        .movie-card p {
+            margin: 9px 0;
+            color: #444;
+        }
+
+        .book-button {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 8px 15px;
+            background: #2196f3;
+            color: white;
+            text-decoration: none;
+            border: 2px solid black;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .book-button:hover {
+            background: #1976d2;
+        }
+
+        .empty {
+            text-align: center;
+            color: #777;
+            padding: 30px;
+        }
+
+        @media (max-width: 800px) {
+            .cards {
+                flex-direction: column;
+            }
+
+            .movie-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .navbar {
+                padding: 15px 20px;
+            }
+
+            .welcome,
+            .movies-section {
+                margin-left: 20px;
+                margin-right: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <div class="logo">🎬 CinemaBook</div>
+        <div class="nav-title">Movie Ticket Booking System</div>
+    </div>
+
+    <!-- Welcome Section -->
+    <div class="welcome">
+        <h1>Welcome to CinemaBook 🎥</h1>
+        <p>Browse movies, check show timings and book your tickets.</p>
+
+        <a href="{% url 'add_movie' %}" class="add-button">
+            + Add Movie
+        </a>
+    </div>
+
+    <!-- Dashboard Cards -->
+    <div class="cards">
+
+        <div class="card">
+            <h3>🎬 Total Movies</h3>
+            <p>{{ movies|length }}</p>
+        </div>
+
+        <div class="card">
+            <h3>🎟️ Available Shows</h3>
+            <p>{{ movies|length }}</p>
+        </div>
+
+        <div class="card">
+            <h3>💺 Total Seats</h3>
+            <p>
+                {% for movie in movies %}
+                    {{ movie.available_seats }}
+                {% empty %}
+                    0
+                {% endfor %}
+            </p>
+        </div>
+
+    </div>
+
+    <!-- Movie Section -->
+    <div class="movies-section">
+
+        <h2>🎥 Now Showing</h2>
+
+        <div class="movie-grid">
+
+            {% for movie in movies %}
+
+            <div class="movie-card">
+
+                <h3>{{ movie.name }}</h3>
+
+                <p><strong>Director:</strong> {{ movie.director }}</p>
+
+                <p><strong>Year:</strong> {{ movie.year }}</p>
+
+                <p><strong>Show Time:</strong> {{ movie.show_time }}</p>
+
+                <p><strong>Ticket Price:</strong> ₹{{ movie.ticket_price }}</p>
+
+                <p><strong>Available Seats:</strong>
+                    {{ movie.available_seats }}
+                </p>
+
+                {% if movie.available_seats > 0 %}
+                    <a href="{% url 'book_ticket' movie.id %}"
+                       class="book-button">
+                        🎟️ Book Ticket
+                    </a>
+                {% else %}
+                    <p><strong>❌ House Full</strong></p>
+                {% endif %}
+
+            </div>
+
+            {% empty %}
+
+            <div class="empty">
+                <h3>No movies available</h3>
+                <p>Click "Add Movie" to add your first movie.</p>
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</body>
+</html>

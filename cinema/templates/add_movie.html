@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Movie</title>
+</head>
+<body>
+
+<h1>🎬 Add Movie</h1>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <label>Movie Name:</label>
+    <input type="text" name="name" required><br><br>
+
+    <label>Director:</label>
+    <input type="text" name="director" required><br><br>
+
+    <label>Year:</label>
+    <input type="number" name="year" required><br><br>
+
+    <label>Show Time:</label>
+    <input type="text" name="show_time" placeholder="7:00 PM" required><br><br>
+
+    <label>Ticket Price:</label>
+    <input type="number" name="ticket_price" required><br><br>
+
+    <label>Available Seats:</label>
+    <input type="number" name="available_seats" value="50" required><br><br>
+
+    <button type="submit">Add Movie</button>
+</form>
+
+<br>
+<a href="{% url 'home' %}">Back to Home</a>
+
+</body>
+</html>
